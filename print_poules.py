@@ -40,7 +40,6 @@ def init(input_url):
 
 
 def trouve_titre(soup):
-    global link
     for poule in soup.find_all('li', class_='active'):
         link = poule.find('a')  # Trouver la balise <a> à l'intérieur de l'élément
         if link and link.text.strip().startswith('Poule'):
@@ -101,7 +100,7 @@ def ajoute_journees_matchs(soup, elements, styles):
     row_section_all = soup.find_all('div', class_='row')
     row_section_non_empty = [tag for tag in row_section_all if tag.find() is not None]
     for row_section in row_section_non_empty:
-        journee_section = row_section.find('h3', class_='sub-header');
+        journee_section = row_section.find('h3', class_='sub-header')
         if journee_section is not None:
             journee_title = journee_section.text.strip()
             matchs = []
