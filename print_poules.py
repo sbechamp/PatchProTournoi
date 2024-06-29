@@ -186,7 +186,7 @@ def export_poules(input_url, number_poules):
     print(f"Les informations des poules ont été enregistrées dans {pdf_file}")
 
 
-# Executable
+# Executable - change url et nb_poules
 # url = "https://iframe.protournoi.fr/app/competition/tournoi-ete-21-07-2023-tableau/matchs/99890/173450"
 # bug
 
