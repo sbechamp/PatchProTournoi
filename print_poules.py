@@ -40,6 +40,7 @@ def init(input_url):
 
 
 def trouve_titre(soup):
+    link = None
     for poule in soup.find_all('li', class_='active'):
         link = poule.find('a')  # Trouver la balise <a> à l'intérieur de l'élément
         if link and link.text.strip().startswith('Poule'):
@@ -104,9 +105,10 @@ def ajoute_journees_matchs(soup, elements, styles):
         if journee_section is not None:
             journee_title = journee_section.text.strip()
             matchs = []
-        match_section = row_section.find_all('h3', class_='widget-content');
+        match_section = row_section.find_all('h3', class_='widget-content')
         if match_section is not None:
             i = 0
+            m = None
             for match in match_section:
                 match_info = match.text.strip()
                 if i % 2 == 0:
@@ -160,8 +162,8 @@ def creer_fichier_pdf(elements, pdf_file):
     document.build(elements)
 
 
-def creer_page_poule(url, elements):
-    soup = init(url)
+def creer_page_poule(input_url, elements):
+    soup = init(input_url)
     styles = getSampleStyleSheet()
     ajoute_titre(soup, elements, styles)
     ajoute_tableau_poule(soup, elements)
@@ -169,14 +171,14 @@ def creer_page_poule(url, elements):
 
 
 # main method
-def export_poules(url, number_poules):
-    soup = init(url)
+def export_poules(input_url, number_poules):
+    soup = init(input_url)
     real_url = 'https://iframe.protournoi.fr/' + trouve_titre(soup).get('href')
     print(real_url)
     elements = []
     for i in range(1, number_poules + 1):
         if i > 1:
-            elements.append(PageBreak());
+            elements.append(PageBreak())
         creer_page_poule(real_url, elements)
         real_url = increment_url(real_url)
     pdf_file = "poules.pdf"
@@ -188,6 +190,6 @@ def export_poules(url, number_poules):
 # url = "https://iframe.protournoi.fr/app/competition/tournoi-ete-21-07-2023-tableau/matchs/99890/173450"
 # bug
 
-url="https://www.protournoi.fr/app/competition/tournoi-ete-21-07-2023-vvtt/matchs/99871/173420"
+url = "https://www.protournoi.fr/app/competition/tournoi-ete-21-07-2023-vvtt/matchs/99871/173420"
 nb_poules = 8
 export_poules(url, nb_poules)
